@@ -80,6 +80,24 @@ static async Task ProcessAsync()
             "\nNext the blob will be downloaded with an altered file name.");
     Console.WriteLine("Press 'Enter' to continue.");
     Console.ReadLine();
+
+    // Download the blob to a local file
+    // Append the string "DOWNLOADED" before the .txt extension 
+    string downloadFilePath = localFilePath.Replace(".txt", "DOWNLOADED.txt");
+
+    Console.WriteLine("\nDownloading blob to\n\t{0}\n", downloadFilePath);
+
+    // Download the blob's contents and save it to a file
+    BlobDownloadInfo download = await blobClient.DownloadAsync();
+
+    using (FileStream downloadFileStream = File.OpenWrite(downloadFilePath))
+    {
+        await download.Content.CopyToAsync(downloadFileStream);
+    }
+    Console.WriteLine("\nLocate the local file in the data directory created earlier to verify it was downloaded.");
+    Console.WriteLine("The next step is to delete the container and local files.");
+    Console.WriteLine("Press 'Enter' to continue.");
+    Console.ReadLine();
 }
 
 public sealed class Keys

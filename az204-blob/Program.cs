@@ -98,6 +98,17 @@ static async Task ProcessAsync()
     Console.WriteLine("The next step is to delete the container and local files.");
     Console.WriteLine("Press 'Enter' to continue.");
     Console.ReadLine();
+
+
+    // Delete the container and clean up local files created
+    Console.WriteLine("\n\nDeleting blob container...");
+    await containerClient.DeleteAsync();
+
+    Console.WriteLine("Deleting the local source and downloaded files...");
+    File.Delete(localFilePath);
+    File.Delete(downloadFilePath);
+
+    Console.WriteLine("Finished cleaning up.");
 }
 
 public sealed class Keys

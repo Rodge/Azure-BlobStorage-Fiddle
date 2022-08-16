@@ -43,6 +43,29 @@ static async Task ProcessAsync()
         "\nNext a file will be created and uploaded to the container.");
     Console.WriteLine("Press 'Enter' to continue.");
     Console.ReadLine();
+
+
+    // Create a local file in the ./data/ directory for uploading and downloading
+    string localPath = "./data/";
+    string fileName = "wtfile" + Guid.NewGuid().ToString() + ".txt";
+    string localFilePath = Path.Combine(localPath, fileName);
+
+    // Write text to the file
+    await File.WriteAllTextAsync(localFilePath, "Hello, World!");
+
+    // Get a reference to the blob
+    BlobClient blobClient = containerClient.GetBlobClient(fileName);
+
+    Console.WriteLine("Uploading to Blob storage as blob:\n\t {0}\n", blobClient.Uri);
+
+    // Open the file and upload its data
+    using FileStream uploadFileStream = File.OpenRead(localFilePath);
+    await blobClient.UploadAsync(uploadFileStream, true);
+
+    Console.WriteLine("\nThe file was uploaded. We'll verify by listing" + 
+            " the blobs next.");
+    Console.WriteLine("Press 'Enter' to continue.");
+    Console.ReadLine();
 }
 
 public sealed class Keys

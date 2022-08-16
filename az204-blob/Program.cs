@@ -33,6 +33,16 @@ static async Task ProcessAsync()
 
     // COPY EXAMPLE CODE BELOW HERE
 
+    //Create a unique name for the container
+    string containerName = "wtblob" + Guid.NewGuid().ToString();
+
+    // Create the container and return a container client object
+    BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync(containerName);
+    Console.WriteLine("A container named '" + containerName + "' has been created. " +
+        "\nTake a minute and verify in the portal." + 
+        "\nNext a file will be created and uploaded to the container.");
+    Console.WriteLine("Press 'Enter' to continue.");
+    Console.ReadLine();
 }
 
 public sealed class Keys
